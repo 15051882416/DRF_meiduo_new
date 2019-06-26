@@ -16,9 +16,6 @@ class UserLoginView(APIView):
         # serializer.validated_data有效数据经过校验之后获得，validate函数返回值
         # 2、构造响应对象，构造返回的数据格式
 
-        # username = serializer.validated_data.get("user").username
-        # id = serializer.validated_data.get("user").id
-
         return Response({
 
             "username": serializer.validated_data.get("user").username,

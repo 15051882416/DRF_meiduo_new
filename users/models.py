@@ -5,6 +5,7 @@ from areas.models import Area
 
 
 class User(AbstractUser):
+
     mobile = models.CharField(max_length=11)
     email_active = models.BooleanField(default=False)
     # 默认收货地址

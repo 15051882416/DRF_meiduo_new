@@ -25,22 +25,23 @@ class UsernameMobileAuthBackend(ModelBackend):
    '''自定义用户认证后端 '''
 
    def authenticate(self, request, username=None, password=None, **kwargs):
-       # 1.获取user(mobile, username)
-    # 根据传入的username获取user对象。username可以是手机号也可以是账号
-    user = get_user_by_account(username)
+        # 1.获取user(mobile, username)
+        # 根据传入的username获取user对象。username可以是手机号也可以是账号
+        user = get_user_by_account(username)
 
-       # 判断是否为超级用户，只有超级用户才能登录后台管理系统
-       # 如果request为None，就会找到后台管理站点超级管理员登录判断，如下：
-       if request == None:
-           # 再判断是否是超级管理员
-           if not user.is_superuser:
+        # 判断是否为超级用户，只有超级用户才能登录后台管理系统(# 判断是否通过vue组件发送请求)
+        # 如果request为None，就会找到后台管理站点超级管理员登录判断，如下：
+        if request == None:
+            # 再判断是否是超级管理员
+            # if not user.is_superuser:
+            if not user.is_staff:
                # 如果不是超级管理员，则返回None，是超级管理员才能执行后续操作
                return None
 
-       # 2.校验密码是否正确
-    if user and user.check_password(password) and user.is_active:
-        # 3.返回user
-        return user
+        # 2.校验密码是否正确
+        if user and user.check_password(password) and user.is_active:
+            # 3.返回user
+            return user
 
 
 def generate_email_verify_url(user):
